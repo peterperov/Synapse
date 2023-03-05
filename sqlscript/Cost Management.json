@@ -1,0 +1,17 @@
+{
+	"name": "Cost Management",
+	"properties": {
+		"content": {
+			"query": "\n-- Limits\n-- https://docs.microsoft.com/en-us/azure/synapse-analytics/sql/data-processed#configure-cost-control-for-serverless-sql-pool-in-t-sql\nSELECT * FROM sys.configurations\nWHERE name like 'Data processed %';\n\n\nSELECT * FROM sys.dm_external_data_processed",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
