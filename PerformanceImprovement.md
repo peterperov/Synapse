@@ -10,7 +10,7 @@ Data generation for WWI on SQL Server takes 3-4 min per day from June 2016. That
 | VM Size | Standard B4ms (4 vcpus, 16 GiB memory) |
 | Disk | Standard HDD LRS, Size: 1024, MaxIOPS: 500 | 
 
-## Improvement considerations
+## Improvements considerations
 
 ### Use Premium/Ultra Disks
 
@@ -24,7 +24,7 @@ Data generation for WWI on SQL Server takes 3-4 min per day from June 2016. That
 
 ### Use Faster VM
 
-|| SKU | CPU | RAM | Temp Storage | Price | 
+| Server | SKU | CPU | RAM | Temp Storage | Price | 
 | el-cheapo Dev Box | B4ms | 4 | 16 | 32 Gb |  €0.197 p/h, €144 p/m |
 | Ds series, standard, v3 | D4s v3 | 4 | 16 | 32 Gb | €0.378 p/h, €275 p/m |
 | Ds series, standard vCPU/ram ratio | D4s v5 | 4 | 16 | 0 | €0.378 p/h, €275 p/m |
