@@ -39,7 +39,15 @@ GO
 
 ## Generate new data 
 
-Restored data is up to
+To improve the data generation script 
+
+```
+ALTER DATABASE WideWorldImporters SET DELAYED_DURABILITY =  FORCED 
+```
+
+[Documentation link](https://learn.microsoft.com/en-us/sql/samples/wide-world-importers-generate-data?view=sql-server-ver16)
+
+Restored data is up to 2016. We need to generate data till current date
 
 ```
 use WideWorldImporters
@@ -60,7 +68,7 @@ EXECUTE DataLoadSimulation.PopulateDataToCurrentDate
     @AverageNumberOfCustomerOrdersPerDay = 60,
     @SaturdayPercentageOfNormalWorkDay = 50,
     @SundayPercentageOfNormalWorkDay = 0,
-    @IsSilentMode = 1,
+    @IsSilentMode = 0,
     @AreDatesPrinted = 1;
 GO 
 ```
@@ -79,15 +87,33 @@ group by I.InvoiceDate
 order by 1 desc 
 ```
 
+## Bring data to DW database
+
+[link](https://learn.microsoft.com/en-us/sql/samples/wide-world-importers-generate-data?view=sql-server-ver16#import-generated-data-in-wideworldimportersdw)
 
 to bring new data to DWH use
 
-```
+### Reseed DWH 
 
 ```
+use WideWorldImportersDW
+go 
+
+EXECUTE [Application].Configuration_ReseedETL
+
+```
+
+### ETL data 
+
+Download SSIS scripts from [here](https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0)
+
+
 
 # Install Synapse 
 
 Will need to bring data from SQL DWH to Synapse via Polybase
 
 [Tutorial: Load data to Azure Synapse Analytics SQL pool](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/load-data-wideworldimportersdw)
+
+
+# 

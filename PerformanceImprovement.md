@@ -51,7 +51,7 @@ Standard Ds series with Premium Disk configured with [best practices](https://le
 * Standard SSD for OS Disk 
 * Premium SSD for Data Disk
 * Data Disk Host Cache - Read/Only 
-* Place tempdb on Temporary Storage 
+* Place tempdb on Temporary Storage (place it at root, as the folder will not be created on startup!)
 
 
 Gonna ignore Log/Data on different Disks for the time. 
@@ -67,3 +67,10 @@ ALTER DATABASE ... SET DELAYED_DURABILITY = { DISABLED | ALLOWED | FORCED }
 
 ALTER DATABASE WideWorldImporters SET DELAYED_DURABILITY =  FORCED 
 ```
+
+Running time 
+
+SQL2022 fast: 3:11:19
+SQL2019 not fast: 2:45:26
+
+
