@@ -2,7 +2,7 @@
 	"name": "Test NYC Query",
 	"properties": {
 		"content": {
-			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://ppsynapsetest.dfs.core.windows.net/users/NYCTripSmall.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\nWHERE DateID = '20131231'\n",
+			"query": "-- This is auto-generated code\n-- 20220308 PP: adding some comments\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://ppsynapsetest.dfs.core.windows.net/users/NYCTripSmall.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\nWHERE DateID = '20131231'\n",
 			"metadata": {
 				"language": "sql"
 			},
