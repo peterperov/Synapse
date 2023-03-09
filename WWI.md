@@ -68,7 +68,7 @@ EXECUTE DataLoadSimulation.PopulateDataToCurrentDate
     @AverageNumberOfCustomerOrdersPerDay = 60,
     @SaturdayPercentageOfNormalWorkDay = 50,
     @SundayPercentageOfNormalWorkDay = 0,
-    @IsSilentMode = 0,
+    @IsSilentMode = 1,
     @AreDatesPrinted = 1;
 GO 
 ```
@@ -103,10 +103,38 @@ EXECUTE [Application].Configuration_ReseedETL
 
 ```
 
+### Populate additional dates in the dimensions table
+
+Some years missing in the dimensions table 
+
+execute [Integration].[PopulateDateDimensionForYear] 2017
+go 
+execute [Integration].[PopulateDateDimensionForYear] 2018
+go 
+execute [Integration].[PopulateDateDimensionForYear] 2019
+go 
+execute [Integration].[PopulateDateDimensionForYear] 2020
+go 
+execute [Integration].[PopulateDateDimensionForYear] 2021
+go 
+execute [Integration].[PopulateDateDimensionForYear] 2022
+go 
+
+
 ### ETL data 
 
 Download SSIS scripts from [here](https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0)
 
+
+#### SQL 2022
+
+Provider has been removed in SQL 2022, so MSOLEDBSQL will need to be used. 
+
+Data Source=sql2022\sql2022;Initial Catalog=WideWorldImportersDW;Provider=MSOLEDBSQL;Integrated Security=SSPI;Auto Translate=False;
+
+
+
+Data Source=sql2022\sql2022;Initial Catalog=WideWorldImporters;Provider=MSOLEDBSQL;Integrated Security=SSPI;Auto Translate=False;
 
 
 # Install Synapse 
@@ -116,4 +144,3 @@ Will need to bring data from SQL DWH to Synapse via Polybase
 [Tutorial: Load data to Azure Synapse Analytics SQL pool](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/load-data-wideworldimportersdw)
 
 
-# 
