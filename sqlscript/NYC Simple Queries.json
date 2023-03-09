@@ -5,7 +5,7 @@
 			"name": "NYCTaxi"
 		},
 		"content": {
-			"query": "-- This is auto-generated code\n-- PP changing\nSELECT\n    vendor_name\n    , year(trip_pickup_datetime)\n    , month(trip_pickup_datetime)\n    , count(1) as trips\nFROM\n    OPENROWSET(\n        BULK 'https://ppsynapsetest.dfs.core.windows.net/nycyellow/*/*.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\nGROUP BY     vendor_name\n    , year(trip_pickup_datetime)\n    , month(trip_pickup_datetime)\n",
+			"query": "\n/*\nNotes: \n\n    * data format is changed nearly every year. Need some way of normalising the column names\n\n*/\n\nSELECT\n    vendor_name\n    , year(trip_pickup_datetime)\n    , month(trip_pickup_datetime)\n    , count(1) as trips\nFROM\n    OPENROWSET(\n        BULK 'https://ppsynapsetest.dfs.core.windows.net/nycyellow/2009/*.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\nGROUP BY     vendor_name\n    , year(trip_pickup_datetime)\n    , month(trip_pickup_datetime)\n",
 			"metadata": {
 				"language": "sql"
 			},
