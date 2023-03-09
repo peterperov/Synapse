@@ -1,0 +1,20 @@
+{
+	"name": "NYC Simple Queries",
+	"properties": {
+		"folder": {
+			"name": "NYCTaxi"
+		},
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://ppsynapsetest.dfs.core.windows.net/nycyellow/*/*.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
