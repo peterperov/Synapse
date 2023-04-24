@@ -1,0 +1,6 @@
+{
+	"name": "CptAzureSHIR",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
