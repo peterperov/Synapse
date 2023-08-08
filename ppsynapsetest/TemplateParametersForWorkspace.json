@@ -5,14 +5,23 @@
 		"workspaceName": {
 			"value": "ppsynapsetest"
 		},
-		"SQL2022_connectionString": {
+		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
 		"ppsynapsetest-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:ppsynapsetest.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://ppsynapsedemo101.dfs.core.windows.net/"
+		},
 		"ppsynapsetest-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://ppsynapsetest.dfs.core.windows.net"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://ppsynapsetest1.vault.azure.net/"
+		},
+		"SentimentAnalysis_properties_typeProperties_subscriptionId": {
+			"value": "2fd2d39b-b2a1-4174-b80c-839540ed7340"
 		}
 	}
 }

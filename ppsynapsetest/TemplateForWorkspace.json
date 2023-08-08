@@ -7,18 +7,30 @@
 			"metadata": "Workspace name",
 			"defaultValue": "ppsynapsetest"
 		},
-		"SQL2022_connectionString": {
+		"AzureDataLakeStorage1_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQL2022'"
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
 		"ppsynapsetest-WorkspaceDefaultSqlServer_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ppsynapsetest-WorkspaceDefaultSqlServer'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:ppsynapsetest.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://ppsynapsedemo101.dfs.core.windows.net/"
+		},
 		"ppsynapsetest-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://ppsynapsetest.dfs.core.windows.net"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://ppsynapsetest1.vault.azure.net/"
+		},
+		"SentimentAnalysis_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "2fd2d39b-b2a1-4174-b80c-839540ed7340"
 		}
 	},
 	"variables": {
@@ -1147,6 +1159,29 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/PowerBIWorkspace1')]",
 			"type": "Microsoft.Synapse/workspaces/linkedServices",
 			"apiVersion": "2019-06-01-preview",
@@ -1160,25 +1195,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SQL2022')]",
-			"type": "Microsoft.Synapse/workspaces/linkedServices",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SQL2022_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "CptAzureSHIR",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/integrationRuntimes/CptAzureSHIR')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/ppsynapsetest-WorkspaceDefaultSqlServer')]",
@@ -2860,16 +2876,50 @@
 			"location": "northeurope"
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/ppdedicated100')]",
-			"type": "Microsoft.Synapse/workspaces/sqlPools",
+			"name": "[concat(parameters('workspaceName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
-				"collation": "SQL_Latin1_General_CP1_CI_AS",
-				"maxSizeBytes": 263882790666240,
-				"annotations": []
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
 			},
-			"dependsOn": [],
-			"location": "northeurope"
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SentimentAnalysis')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "CognitiveService",
+				"typeProperties": {
+					"subscriptionId": "[parameters('SentimentAnalysis_properties_typeProperties_subscriptionId')]",
+					"resourceGroup": "pp-rs-textanalytics",
+					"csName": "pptextanalytics1",
+					"csKind": "TextAnalytics",
+					"csLocation": "eastus",
+					"endPoint": "https://pptextanalytics1.cognitiveservices.azure.com/",
+					"csKey": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault1",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "MySecret"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
+				"[concat(variables('workspaceId'), '/linkedServices/AzureKeyVault1')]"
+			]
 		}
 	]
 }
