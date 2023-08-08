@@ -1,0 +1,27 @@
+{
+	"name": "SentimentAnalysis",
+	"properties": {
+		"annotations": [],
+		"type": "CognitiveService",
+		"typeProperties": {
+			"subscriptionId": "2fd2d39b-b2a1-4174-b80c-839540ed7340",
+			"resourceGroup": "pp-rs-textanalytics",
+			"csName": "pptextanalytics1",
+			"csKind": "TextAnalytics",
+			"csLocation": "eastus",
+			"endPoint": "https://pptextanalytics1.cognitiveservices.azure.com/",
+			"csKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault1",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "MySecret"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
