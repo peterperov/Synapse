@@ -1,0 +1,83 @@
+{
+	"name": "Notebook 1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Spark01",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "095e4967-d833-4456-8818-f30b644811f8"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/2fd2d39b-b2a1-4174-b80c-839540ed7340/resourceGroups/pp-rs-SynapseTest/providers/Microsoft.Synapse/workspaces/ppsynapsetest/bigDataPools/Spark01",
+				"name": "Spark01",
+				"type": "Spark",
+				"endpoint": "https://ppsynapsetest.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/Spark01",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.3",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"# If you use spark2.4 pool, please replace with `from mmlspark.cognitive import *` instead\n",
+					"# Kindly note that spark2.4 pool will be deprecated soon, spark3.x pools are recommended\n",
+					"from synapse.ml.cognitive import *\n",
+					"from pyspark.sql.functions import col\n",
+					"\n",
+					"# Load the data into a Spark DataFrame\n",
+					"df = spark.sql(\"SELECT * FROM default.fabricamanalytics\")\n",
+					"\n",
+					"sentiment = (TextSentiment()\n",
+					"    .setLinkedService(\"SentimentAnalysis\")\n",
+					"    .setOutputCol(\"output\")\n",
+					"    .setErrorCol(\"error\")\n",
+					"    .setLanguage(\"en\")\n",
+					"    .setTextCol(\"comment\"))\n",
+					"\n",
+					"results = sentiment.transform(df)\n",
+					"\n",
+					"# Show the results\n",
+					"display(results\n",
+					"    .withColumn(\"sentiment\", col(\"output.document.sentiment\"))\n",
+					"    .select(\"comment\", \"sentiment\", \"error\"))"
+				],
+				"execution_count": 10
+			}
+		]
+	}
+}
