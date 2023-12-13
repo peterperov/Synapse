@@ -1,0 +1,7 @@
+{
+	"name": "SHIR-test",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Testing installation"
+	}
+}
