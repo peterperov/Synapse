@@ -68,7 +68,7 @@ EXECUTE DataLoadSimulation.PopulateDataToCurrentDate
     @AverageNumberOfCustomerOrdersPerDay = 60,
     @SaturdayPercentageOfNormalWorkDay = 50,
     @SundayPercentageOfNormalWorkDay = 0,
-    @IsSilentMode = 1,
+    @IsSilentMode = 0,
     @AreDatesPrinted = 1;
 GO 
 ```
@@ -107,6 +107,7 @@ EXECUTE [Application].Configuration_ReseedETL
 
 Some years missing in the dimensions table 
 
+```
 execute [Integration].[PopulateDateDimensionForYear] 2017
 go 
 execute [Integration].[PopulateDateDimensionForYear] 2018
@@ -119,11 +120,37 @@ execute [Integration].[PopulateDateDimensionForYear] 2021
 go 
 execute [Integration].[PopulateDateDimensionForYear] 2022
 go 
+execute [Integration].[PopulateDateDimensionForYear] 2023
+go 
+execute [Integration].[PopulateDateDimensionForYear] 2024
+go 
 
+```
+
+verify
+
+```
+select [Calendar Year], count(1)
+from Dimension.Date
+group by  [Calendar Year]
+order by 1
+```
 
 ### ETL data 
 
 Download SSIS scripts from [here](https://github.com/Microsoft/sql-server-samples/releases/tag/wide-world-importers-v1.0)
+
+
+verify rows in DWH table 
+
+```
+select d.[Calendar Year], count(1)
+FROM Fact.Sale F 
+inner join dimension.date D
+on F.[Invoice Date Key] = D.[date]
+group by d.[Calendar Year]
+order by 1
+```
 
 
 #### SQL 2022
