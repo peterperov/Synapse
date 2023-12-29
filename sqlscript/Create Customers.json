@@ -1,0 +1,20 @@
+{
+	"name": "Create Customers",
+	"properties": {
+		"folder": {
+			"name": "DP-203"
+		},
+		"content": {
+			"query": "CREATE TABLE dbo.Customers\n(\nCustomerID INT\n,email VARCHAR(250)\n) WITH(DISTRIBUTION=ROUND_ROBIN,HEAP);\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "ppdedicated",
+				"poolName": "ppdedicated"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
